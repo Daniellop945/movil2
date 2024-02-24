@@ -49,8 +49,8 @@ class BlurViewModel(private val bluromaticRepository: BluromaticRepository) : Vi
         .map { info ->
             val outputImageUri = info.outputData.getString(KEY_IMAGE_URI)
             when {
-                info.state.isFinished && outputImageUri.isNullOrEmpty() -> {
-                    BlurUiState.Complete(outputUri = "")
+                info.state.isFinished && !outputImageUri.isNullOrEmpty() -> {
+                    BlurUiState.Complete(outputUri = outputImageUri)
                 }
                 info.state == WorkInfo.State.CANCELLED -> {
                     BlurUiState.Default
@@ -69,6 +69,10 @@ class BlurViewModel(private val bluromaticRepository: BluromaticRepository) : Vi
      */
     fun applyBlur(blurLevel: Int) {
         bluromaticRepository.applyBlur(blurLevel)
+    }
+
+    fun cancelWork(){
+        bluromaticRepository.cancelWork()
     }
 
     /**

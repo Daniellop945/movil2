@@ -91,7 +91,7 @@ fun BluromaticScreen(blurViewModel: BlurViewModel = viewModel(factory = BlurView
             blurUiState = uiState,
             blurAmountOptions = blurViewModel.blurAmount,
             applyBlur = blurViewModel::applyBlur,
-            cancelWork = {},
+            cancelWork = blurViewModel::cancelWork,
             modifier = Modifier
                 .verticalScroll(rememberScrollState())
                 .padding(dimensionResource(R.dimen.padding_medium))
@@ -166,11 +166,10 @@ private fun BlurActions(
             }
             is BlurUiState.Complete -> {
                 Button(onStartClick) { Text(stringResource(R.string.start)) }
-                //ADD a spacer and the new button with a "See File" label
+                // Add a spacer and the new button with a "See File" label
                 Spacer(modifier = Modifier.width(dimensionResource(R.dimen.padding_small)))
-                FilledTonalButton( { onSeeFileClick(blurUiState.outputUri) }) {
-                    Text(stringResource(R.string.see_file))
-                }
+                FilledTonalButton({ onSeeFileClick(blurUiState.outputUri) })
+                { Text(stringResource(R.string.see_file)) }
             }
         }
     }
